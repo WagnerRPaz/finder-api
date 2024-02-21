@@ -25,7 +25,7 @@ public class CategoryEntity {
     List<WorkerEntity> workers;
 
 
-    public CategoryEntity (String name){
-        this.name = name;
+    public static  CategoryDTO entityToDto(CategoryEntity entity){
+        return new CategoryDTO(entity.id, entity.name);
     }
 }

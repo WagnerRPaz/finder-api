@@ -44,4 +44,8 @@ public class WorkerEntity {
         this.experience = experience;
     }
 
+    public static WorkerDTO entityToDto(WorkerEntity entity){
+        return new WorkerDTO(entity.full_name, entity.birth_data, entity.phone, entity.email, entity.category.getName(), entity.experience);
+    }
+
 }

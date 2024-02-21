@@ -3,13 +3,12 @@ package com.finder.finderapi.worker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -25,5 +24,12 @@ public class WorkerController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
+    }
+
+    @GetMapping("/findWorker")
+    public ResponseEntity<Page<WorkerDTO>>findWorker(@RequestParam String categoryName, Pageable pageable){
+        Page<WorkerDTO> workers = service.getWorkerByCategory(categoryName, pageable);
+        return  ResponseEntity.ok(workers);
+
     }
 }
