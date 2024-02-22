@@ -32,4 +32,10 @@ public class WorkerController {
         return  ResponseEntity.ok(workers);
 
     }
+
+    @GetMapping("/findWorkerById/{worker_id}")
+    public ResponseEntity<WorkerDTO>getWorkerById(@PathVariable Long worker_id){
+        var worker = service.getWorkerById(worker_id);
+        return ResponseEntity.ok((WorkerDTO) worker);
+    }
 }

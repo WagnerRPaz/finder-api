@@ -6,6 +6,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 public class WorkerDTO {
+    Long worker_id;
     String full_name;
     LocalDate birth_data;
     Integer phone;

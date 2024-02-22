@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CategoryService {
     @Autowired
@@ -17,5 +19,16 @@ public class CategoryService {
         Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
 
         return repository.findAll(pageableWithSort).map(CategoryEntity::entityToDto);
+    }
+
+    public Object getCategoryById(Long id) {
+        Optional<CategoryEntity> optionalCategory  = repository.findById(id);
+
+        if (optionalCategory.isPresent()) {
+            CategoryEntity category = optionalCategory.get();
+            return CategoryEntity.entityToDto(category);
+        } else {
+            throw new RuntimeException("Categoria não encontrada " + id);
+        }
     }
 }

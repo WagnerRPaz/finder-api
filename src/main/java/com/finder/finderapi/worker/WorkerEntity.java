@@ -45,7 +45,7 @@ public class WorkerEntity {
     }
 
     public static WorkerDTO entityToDto(WorkerEntity entity){
-        return new WorkerDTO(entity.full_name, entity.birth_data, entity.phone, entity.email, entity.category.getName(), entity.experience);
+        return new WorkerDTO(entity.worker_id,entity.full_name, entity.birth_data, entity.phone, entity.email, entity.category.getName(), entity.experience);
     }
 
 }

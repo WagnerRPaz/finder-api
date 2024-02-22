@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class WorkerService {
     @Autowired
@@ -36,5 +38,16 @@ public class WorkerService {
         Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
 
         return repository.findByCategory(category, pageableWithSort).map(WorkerEntity::entityToDto);
+    }
+
+    public Object getWorkerById(Long workerId) {
+        Optional<WorkerEntity> optionalWorker  = repository.findById(workerId);
+
+        if (optionalWorker.isPresent()) {
+            WorkerEntity worker = optionalWorker.get();
+            return WorkerEntity.entityToDto(worker);
+        } else {
+            throw new RuntimeException("Trabalhador não encontrado " + workerId);
+        }
     }
 }
