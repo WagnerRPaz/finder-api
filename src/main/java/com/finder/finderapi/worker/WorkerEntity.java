@@ -34,18 +34,21 @@ public class WorkerEntity {
 
     Integer experience;
 
+    String summary;
 
-    public WorkerEntity(String full_name, LocalDate birth_data, Integer phone, String email, CategoryEntity category, Integer experience){
+
+    public WorkerEntity(String full_name, LocalDate birth_data, Integer phone, String email, CategoryEntity category, Integer experience, String summary){
         this.full_name = full_name;
         this.birth_data = birth_data;
         this.phone = phone;
         this.email = email;
         this.category = category;
         this.experience = experience;
+        this.summary = summary;
     }
 
     public static WorkerDTO entityToDto(WorkerEntity entity){
-        return new WorkerDTO(entity.worker_id,entity.full_name, entity.birth_data, entity.phone, entity.email, entity.category.getName(), entity.experience);
+        return new WorkerDTO(entity.worker_id,entity.full_name, entity.birth_data, entity.phone, entity.email, entity.category.getName(), entity.experience, entity.summary);
     }
 
 }

@@ -25,7 +25,8 @@ public class WorkerService {
                 data.phone,
                 data.email,
                 category,
-                data.experience
+                data.experience,
+                data.summary
         );
         repository.save(newWorker);
     }
@@ -41,13 +42,14 @@ public class WorkerService {
     }
 
     public Object getWorkerById(Long workerId) {
-        Optional<WorkerEntity> optionalWorker  = repository.findById(workerId);
+        Optional<WorkerEntity> optionalWorker = repository.findById(workerId);
 
         if (optionalWorker.isPresent()) {
             WorkerEntity worker = optionalWorker.get();
             return WorkerEntity.entityToDto(worker);
         } else {
-            throw new RuntimeException("Trabalhador não encontrado " + workerId);
+            throw new RuntimeException("Trabalhador não encontrado: " + workerId);
         }
     }
+
 }

@@ -13,4 +13,5 @@ public class WorkerDTO {
     String email;
     String categoryName;
     Integer experience;
+    String summary;
 }

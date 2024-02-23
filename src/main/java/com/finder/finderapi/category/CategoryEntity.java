@@ -21,11 +21,13 @@ public class CategoryEntity {
 
     String name;
 
+    String description;
+
     @OneToMany(mappedBy = "category")
     List<WorkerEntity> workers;
 
 
     public static  CategoryDTO entityToDto(CategoryEntity entity){
-        return new CategoryDTO(entity.id, entity.name);
+        return new CategoryDTO(entity.id, entity.name, entity.description);
     }
 }
