@@ -19,15 +19,15 @@ import java.util.Collection;
 public class UsersEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String nome;
+    private String nome;
 
-    String email;
+    private String email;
 
-    String password;
+    private String password;
 
-    Integer telefone;
+    private Integer telefone;
 
     @Enumerated(EnumType.STRING)
     UsersRoles role;

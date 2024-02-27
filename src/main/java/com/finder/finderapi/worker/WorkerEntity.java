@@ -4,6 +4,7 @@ import com.finder.finderapi.category.CategoryEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
@@ -18,37 +19,47 @@ public class WorkerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long worker_id;
+    private Long worker_id;
 
-    String full_name;
+    private String full_name;
 
-    LocalDate birth_data;
+    private LocalDate birth_date;
 
-    Integer phone;
+    private String phone;
 
-    String email;
+    private String email;
+
+    @CPF(message = "CPF inválido")
+    private String cpf;
+
+    private String city;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    CategoryEntity category;
+    private CategoryEntity category;
 
-    Integer experience;
+    private Integer experience;
 
-    String summary;
+    private String summary;
 
+    @Lob
+    private String photoBase64;
 
-    public WorkerEntity(String full_name, LocalDate birth_data, Integer phone, String email, CategoryEntity category, Integer experience, String summary){
+    public WorkerEntity(String full_name, LocalDate birth_date, String phone, String email, String cpf, String city, CategoryEntity category, Integer experience, String summary, String photoBase64){
         this.full_name = full_name;
-        this.birth_data = birth_data;
+        this.birth_date = birth_date;
         this.phone = phone;
         this.email = email;
         this.category = category;
         this.experience = experience;
         this.summary = summary;
+        this.cpf = cpf;
+        this.city = city;
+        this.photoBase64 = photoBase64;
     }
 
     public static WorkerDTO entityToDto(WorkerEntity entity){
-        return new WorkerDTO(entity.worker_id,entity.full_name, entity.birth_data, entity.phone, entity.email, entity.category.getName(), entity.experience, entity.summary);
+        return new WorkerDTO(entity.worker_id,entity.full_name, entity.birth_date, entity.phone, entity.email, entity.cpf, entity.city, entity.category.getName(), entity.experience, entity.summary, null,entity.photoBase64);
     }
 
 }

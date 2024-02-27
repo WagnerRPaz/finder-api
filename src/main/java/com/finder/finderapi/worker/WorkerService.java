@@ -8,7 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Optional;
 
 @Service
@@ -17,16 +19,27 @@ public class WorkerService {
     WorkerRepository repository;
     @Autowired
     CategoryRepository categoryRepository;
-    public void workerRegister(WorkerDTO data) {
-        CategoryEntity category = categoryRepository.findByName(data.categoryName);
+    public void workerRegister(WorkerDTO data) throws IOException {
+        CategoryEntity category = categoryRepository.findByName(data.getCategoryName());
+
+        String photoBase64 = null;
+        if (data.getPhotoFile() != null && !data.getPhotoFile().isEmpty()) {
+            MultipartFile photoFile = data.getPhotoFile();
+            byte[] photoBytes = photoFile.getBytes();
+            photoBase64 = Base64.getEncoder().encodeToString(photoBytes);
+        }
+
         WorkerEntity newWorker = new WorkerEntity(
-                data.full_name,
-                data.birth_data,
-                data.phone,
-                data.email,
+                data.getFull_name(),
+                data.getBirth_date(),
+                data.getPhone(),
+                data.getEmail(),
+                data.getCpf(),
+                data.getCity(),
                 category,
-                data.experience,
-                data.summary
+                data.getExperience(),
+                data.getSummary(),
+                photoBase64
         );
         repository.save(newWorker);
     }

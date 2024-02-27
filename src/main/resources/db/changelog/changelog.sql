@@ -33,15 +33,18 @@ INSERT INTO category (name, description) VALUES('Pedreiro', 'Profissional respon
                                                ('Vidraceiro', 'Profissional responsável pela instalação, reparo e manutenção de produtos de vidro.'),
                                                ('Marido de aluguel', 'Profissional responsável por fazer pequenos consertos e reparos em residências.'),
                                                ('Instalação de eletrônicos', 'Profissional responsável pela instalação, manutenção e reparo de dispositivos eletrônicos.');
--- changeset wagner:030
+-- changeset wagner:043
 CREATE TABLE worker(
     worker_id INT PRIMARY KEY AUTO_INCREMENT,
     full_name VARCHAR(80) NOT NULL,
-    birth_data DATE NOT NULL,
-    phone INT NOT NULL,
+    birth_date DATE NOT NULL,
+    phone VARCHAR(14) NOT NULL,
     email VARCHAR(80) NOT NULL,
     category_id INT NOT NULL,
     experience INT NOT NULL,
     summary VARCHAR(500),
+    cpf VARCHAR(14) NOT NULL UNIQUE,
+    city VARCHAR(50) NOT NULL,
+    photo_base64 LONGTEXT,
     FOREIGN KEY (category_id) REFERENCES category(id)
 );

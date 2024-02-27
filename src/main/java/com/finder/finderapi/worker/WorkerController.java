@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import java.io.IOException;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -19,11 +20,9 @@ public class WorkerController {
     private final WorkerService service;
 
     @PostMapping("/newWorker")
-    public ResponseEntity<?>workerRegister(@RequestBody @Valid WorkerDTO data){
+    public ResponseEntity<?> workerRegister(@ModelAttribute @Valid WorkerDTO data) throws IOException {
         service.workerRegister(data);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/findWorker")
