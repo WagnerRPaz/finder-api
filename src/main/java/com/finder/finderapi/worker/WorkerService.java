@@ -16,9 +16,9 @@ import java.util.Optional;
 @Service
 public class WorkerService {
     @Autowired
-    WorkerRepository repository;
+    private WorkerRepository repository;
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     public void workerRegister(WorkerDTO data) throws IOException {
         CategoryEntity category = categoryRepository.findByName(data.getCategoryName());
 
@@ -48,7 +48,7 @@ public class WorkerService {
 
 
         CategoryEntity category = categoryRepository.findByName(categoryName);
-        Sort sort = Sort.by("experience").ascending();
+        Sort sort = Sort.by("experience").descending();
         Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
 
         return repository.findByCategory(category, pageableWithSort).map(WorkerEntity::entityToDto);

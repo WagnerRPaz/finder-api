@@ -1,17 +1,12 @@
 -- liquibase formatted sql
--- changeset wagner:017
+-- changeset wagner:21
 CREATE TABLE users(
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(50) NOT NULL,
+        user_id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(50) NOT NULL,
         email VARCHAR(50) NOT NULL,
         password VARCHAR(100) NOT NULL,
-        telefone INT NOT NULL,
         role VARCHAR(10) NOT NULL
 );
-
--- changeset wagner:018
-INSERT INTO users (nome,email, password, telefone, role) VALUES('Wagner','wagner@gmail.com', '123456ww', 999999999,'USER');
-
 
 -- changeset wagner:027
 CREATE TABLE category(
@@ -47,4 +42,14 @@ CREATE TABLE worker(
     city VARCHAR(50) NOT NULL,
     photo_base64 LONGTEXT,
     FOREIGN KEY (category_id) REFERENCES category(id)
+);
+-- changeset wagner:044
+CREATE TABLE reviews (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    worker_id BIGINT,
+    user_id INT NOT NULL,
+    rating INT NOT NULL,
+    comment VARCHAR(500) NOT NULL,
+    FOREIGN KEY (worker_id) REFERENCES worker(worker_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

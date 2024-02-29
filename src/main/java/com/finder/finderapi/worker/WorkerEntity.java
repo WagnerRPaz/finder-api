@@ -1,12 +1,15 @@
 package com.finder.finderapi.worker;
 
 import com.finder.finderapi.category.CategoryEntity;
+
+import com.finder.finderapi.reviews.ReviewsEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "worker")
@@ -44,6 +47,10 @@ public class WorkerEntity {
 
     @Lob
     private String photoBase64;
+
+    @OneToMany(mappedBy = "worker")
+    private List<ReviewsEntity> reviews;
+
 
     public WorkerEntity(String full_name, LocalDate birth_date, String phone, String email, String cpf, String city, CategoryEntity category, Integer experience, String summary, String photoBase64){
         this.full_name = full_name;
