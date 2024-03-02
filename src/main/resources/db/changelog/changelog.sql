@@ -43,13 +43,17 @@ CREATE TABLE worker(
     photo_base64 LONGTEXT,
     FOREIGN KEY (category_id) REFERENCES category(id)
 );
--- changeset wagner:044
+-- changeset wagner:046
 CREATE TABLE reviews (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
-    worker_id BIGINT,
-    user_id INT NOT NULL,
+    worker_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
     rating INT NOT NULL,
     comment VARCHAR(500) NOT NULL,
     FOREIGN KEY (worker_id) REFERENCES worker(worker_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+-- changeset wagner:047
+ALTER TABLE worker
+ADD COLUMN status VARCHAR(20) NOT NULL;

@@ -1,18 +1,20 @@
 package com.finder.finderapi.reviews;
 
 
+import com.finder.finderapi.exptions.ReviewAlreadyExistsException;
+import com.finder.finderapi.exptions.UserNotFoundException;
 import com.finder.finderapi.exptions.WorkerNotFoundException;
 import com.finder.finderapi.users.UsersEntity;
 import com.finder.finderapi.users.UsersRepository;
 import com.finder.finderapi.worker.WorkerEntity;
 import com.finder.finderapi.worker.WorkerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 public class ReviewsService {
 
@@ -26,19 +28,17 @@ public class ReviewsService {
     private UsersRepository usersRepository;
 
     public void newReview(ReviewsDTO data) {
-        if (data.getRating() < 1 || data.getRating() > 5) {
-            throw new IllegalArgumentException("O rating deve estar entre 1 e 5.");
+        WorkerEntity worker = workerRepository.findById(data.getWorker())
+                .orElseThrow(() -> new WorkerNotFoundException("Profissional não encontrado para o ID: ", data.getWorker()));
+
+        UsersEntity user = usersRepository.findById(data.getUser())
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado para o ID: ", data.getUser()));
+
+        if (repository.existsByUserAndWorker(user, worker)) {
+            throw new ReviewAlreadyExistsException("Este usuário já avaliou este profissional.");
         }
-        Optional<WorkerEntity> workerOptional = workerRepository.findById(data.getWorker());
-        if (workerOptional.isEmpty()) {
-            throw new WorkerNotFoundException("Trabalhador não encontrado para o ID: ", data.getWorker());
-        }
-        Optional<UsersEntity> userOptional = usersRepository.findById(data.getUser());
-        if (userOptional.isEmpty()) {
-            throw new RuntimeException("Usuário não encontrado para o ID: " + data.getUser());
-        }
-        WorkerEntity worker = workerOptional.get();
-        UsersEntity user = userOptional.get();
+
+
         ReviewsEntity newReview = new ReviewsEntity(
                 worker,
                 user,
@@ -53,20 +53,21 @@ public class ReviewsService {
                 .orElseThrow(() -> new WorkerNotFoundException("Trabalhador não encontrado para o ID: ", workerId));
 
         List<ReviewsEntity> reviews = repository.findByWorker(worker);
-
         int totalReviews = reviews.size();
-        double averageRating = reviews.stream()
-                .mapToInt(ReviewsEntity::getRating)
-                .average()
-                .orElse(0.0);
-
-        List<ReviewsDTO> reviewDTOs = reviews.stream()
+        double averageRating = calculateAverageRating(reviews);
+        List<ReviewsDTO> reviewsDTOs = reviews.stream()
                 .map(ReviewsEntity::entityToDto)
                 .collect(Collectors.toList());
 
-        return new WorkerReviewsStatsDTO(totalReviews, averageRating, reviewDTOs);
+        return new WorkerReviewsStatsDTO(totalReviews, averageRating, reviewsDTOs);
+    }
+    private double calculateAverageRating(List<ReviewsEntity> reviews) {
+        if (reviews.isEmpty()) {
+            return 0.0;
+        }
+        double sum = reviews.stream()
+                .mapToDouble(ReviewsEntity::getRating)
+                .sum();
+        return sum / reviews.size();
     }
 }
-
-
-

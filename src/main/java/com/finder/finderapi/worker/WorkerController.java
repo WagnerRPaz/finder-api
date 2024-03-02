@@ -32,9 +32,9 @@ public class WorkerController {
 
     }
 
-    @GetMapping("/findWorkerById/{worker_id}")
-    public ResponseEntity<WorkerDTO>getWorkerById(@PathVariable Long worker_id){
-        var worker = service.getWorkerById(worker_id);
-        return ResponseEntity.ok((WorkerDTO) worker);
+    @PostMapping("/acceptWorker/{workerId}")
+    public ResponseEntity<?> acceptWorker(@PathVariable Long workerId) {
+        service.updateWorkerStatusToAccepted(workerId);
+        return ResponseEntity.ok().build();
     }
 }

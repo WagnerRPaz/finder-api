@@ -2,6 +2,7 @@ package com.finder.finderapi.worker;
 
 import com.finder.finderapi.category.CategoryEntity;
 import com.finder.finderapi.category.CategoryRepository;
+import com.finder.finderapi.exptions.WorkerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Optional;
@@ -28,7 +30,7 @@ public class WorkerService {
             byte[] photoBytes = photoFile.getBytes();
             photoBase64 = Base64.getEncoder().encodeToString(photoBytes);
         }
-
+        WorkerStatus status = WorkerStatus.PENDING;
         WorkerEntity newWorker = new WorkerEntity(
                 data.getFull_name(),
                 data.getBirth_date(),
@@ -39,7 +41,8 @@ public class WorkerService {
                 category,
                 data.getExperience(),
                 data.getSummary(),
-                photoBase64
+                photoBase64,
+                status
         );
         repository.save(newWorker);
     }
@@ -54,15 +57,14 @@ public class WorkerService {
         return repository.findByCategory(category, pageableWithSort).map(WorkerEntity::entityToDto);
     }
 
-    public Object getWorkerById(Long workerId) {
+    public void updateWorkerStatusToAccepted(Long workerId) {
         Optional<WorkerEntity> optionalWorker = repository.findById(workerId);
-
         if (optionalWorker.isPresent()) {
             WorkerEntity worker = optionalWorker.get();
-            return WorkerEntity.entityToDto(worker);
+            worker.setStatus(WorkerStatus.ACCEPTED);
+            repository.save(worker);
         } else {
-            throw new RuntimeException("Trabalhador não encontrado: " + workerId);
+            throw new WorkerNotFoundException("Trabalhador não encontrado: ", workerId);
         }
     }
-
 }

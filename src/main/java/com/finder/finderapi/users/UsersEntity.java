@@ -1,7 +1,6 @@
 package com.finder.finderapi.users;
 
 
-import com.finder.finderapi.reviews.ReviewsEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -32,9 +30,6 @@ public class UsersEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     UsersRoles role;
-
-    @OneToMany(mappedBy = "user")
-    private List<ReviewsEntity> reviews;
 
 
     public UsersEntity(String name, String email, String password, UsersRoles role) {

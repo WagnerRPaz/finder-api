@@ -1,7 +1,6 @@
 package com.finder.finderapi.worker;
 
 import com.finder.finderapi.category.CategoryEntity;
-
 import com.finder.finderapi.reviews.ReviewsEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,8 +50,11 @@ public class WorkerEntity {
     @OneToMany(mappedBy = "worker")
     private List<ReviewsEntity> reviews;
 
+    @Enumerated(EnumType.STRING)
+    WorkerStatus status;
 
-    public WorkerEntity(String full_name, LocalDate birth_date, String phone, String email, String cpf, String city, CategoryEntity category, Integer experience, String summary, String photoBase64){
+
+    public WorkerEntity(String full_name, LocalDate birth_date, String phone, String email, String cpf, String city, CategoryEntity category, Integer experience, String summary, String photoBase64, WorkerStatus status){
         this.full_name = full_name;
         this.birth_date = birth_date;
         this.phone = phone;
@@ -63,6 +65,7 @@ public class WorkerEntity {
         this.cpf = cpf;
         this.city = city;
         this.photoBase64 = photoBase64;
+        this.status = status;
     }
 
     public static WorkerDTO entityToDto(WorkerEntity entity){

@@ -22,9 +22,9 @@ public class ReviewsController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{workerId}/reviews")
+    @GetMapping("/stats/{workerId}")
     public ResponseEntity<WorkerReviewsStatsDTO> getWorkerReviewsStats(@PathVariable Long workerId) {
-        WorkerReviewsStatsDTO stats = service.getWorkerReviewsStats(workerId);
-        return ResponseEntity.ok(stats);
+        WorkerReviewsStatsDTO statsDTO = service.getWorkerReviewsStats(workerId);
+        return ResponseEntity.ok(statsDTO);
     }
 }
