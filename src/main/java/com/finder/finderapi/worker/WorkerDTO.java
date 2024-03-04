@@ -22,5 +22,6 @@ public class WorkerDTO {
     private Integer experience;
     private String summary;
     private MultipartFile photoFile;
+    private WorkerStatus status;
     private String photoBase64;
 }

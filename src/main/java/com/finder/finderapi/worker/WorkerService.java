@@ -23,6 +23,7 @@ public class WorkerService {
     private CategoryRepository categoryRepository;
     public void workerRegister(WorkerDTO data) throws IOException {
         CategoryEntity category = categoryRepository.findByName(data.getCategoryName());
+        WorkerStatus status = WorkerStatus.PENDING;
 
         String photoBase64 = null;
         if (data.getPhotoFile() != null && !data.getPhotoFile().isEmpty()) {
@@ -30,7 +31,6 @@ public class WorkerService {
             byte[] photoBytes = photoFile.getBytes();
             photoBase64 = Base64.getEncoder().encodeToString(photoBytes);
         }
-        WorkerStatus status = WorkerStatus.PENDING;
         WorkerEntity newWorker = new WorkerEntity(
                 data.getFull_name(),
                 data.getBirth_date(),
@@ -41,8 +41,8 @@ public class WorkerService {
                 category,
                 data.getExperience(),
                 data.getSummary(),
-                photoBase64,
-                status
+                status,
+                photoBase64
         );
         repository.save(newWorker);
     }

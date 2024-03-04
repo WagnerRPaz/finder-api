@@ -44,6 +44,7 @@ public class WorkerEntity {
 
     private String summary;
 
+    @Column(length = 10000000)
     @Lob
     private String photoBase64;
 
@@ -54,7 +55,7 @@ public class WorkerEntity {
     WorkerStatus status;
 
 
-    public WorkerEntity(String full_name, LocalDate birth_date, String phone, String email, String cpf, String city, CategoryEntity category, Integer experience, String summary, String photoBase64, WorkerStatus status){
+    public WorkerEntity(String full_name, LocalDate birth_date, String phone, String email, String cpf, String city, CategoryEntity category, Integer experience, String summary, WorkerStatus status, String photoBase64){
         this.full_name = full_name;
         this.birth_date = birth_date;
         this.phone = phone;
@@ -64,12 +65,12 @@ public class WorkerEntity {
         this.summary = summary;
         this.cpf = cpf;
         this.city = city;
-        this.photoBase64 = photoBase64;
         this.status = status;
+        this.photoBase64 = photoBase64;
     }
 
     public static WorkerDTO entityToDto(WorkerEntity entity){
-        return new WorkerDTO(entity.worker_id,entity.full_name, entity.birth_date, entity.phone, entity.email, entity.cpf, entity.city, entity.category.getName(), entity.experience, entity.summary, null,entity.photoBase64);
+        return new WorkerDTO(entity.worker_id,entity.full_name, entity.birth_date, entity.phone, entity.email, entity.cpf, entity.city, entity.category.getName(), entity.experience, entity.summary, null,entity.status, entity.photoBase64);
     }
 
 }

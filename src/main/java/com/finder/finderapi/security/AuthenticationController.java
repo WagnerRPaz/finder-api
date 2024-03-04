@@ -1,5 +1,6 @@
 package com.finder.finderapi.security;
 
+import com.finder.finderapi.exptions.EmailAlreadyRegisteredException;
 import com.finder.finderapi.users.LoginResponseDTO;
 import com.finder.finderapi.users.UsersEntity;
 import com.finder.finderapi.users.UsersRepository;
@@ -41,8 +42,9 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO data) {
-        if (this.repository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
-
+        if (this.repository.findByEmail(data.email()) != null) {
+            throw new EmailAlreadyRegisteredException("Este email já está registrado.");
+        }
         UsersRoles userRole = UsersRoles.USER;
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         UsersEntity newUser = new UsersEntity(data.name(), data.email(), encryptedPassword, userRole);

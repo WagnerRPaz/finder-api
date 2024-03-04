@@ -1,21 +1,21 @@
 -- liquibase formatted sql
--- changeset wagner:21
+-- changeset wagner:Users
 CREATE TABLE users(
-        user_id INT PRIMARY KEY AUTO_INCREMENT,
+        user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(50) NOT NULL,
         email VARCHAR(50) NOT NULL,
         password VARCHAR(100) NOT NULL,
         role VARCHAR(10) NOT NULL
 );
 
--- changeset wagner:027
+-- changeset wagner:Categories-table
 CREATE TABLE category(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(500) NOT NULL
 );
 
--- changeset wagner:028
+-- changeset wagner:Categories-content
 INSERT INTO category (name, description) VALUES('Pedreiro', 'Profissional responsável pela execução de atividades de construção e manutenção de edifícios, casas, estruturas e obras em geral.'),
                                                ('Pintor', 'Profissional responsável por utilizar técnicas de pintura para aplicar tintas em superfícies, com o objetivo de criar efeitos estéticos e/ou proteger e preservar os materiais.'),
                                                ('Carpinteiro', 'Profissional responsável por construir e reparar estruturas e outros objetos compostos por madeira. Em sua atuação, eles cortam, lixam, montam e instalam móveis e outros materiais.'),
@@ -28,9 +28,9 @@ INSERT INTO category (name, description) VALUES('Pedreiro', 'Profissional respon
                                                ('Vidraceiro', 'Profissional responsável pela instalação, reparo e manutenção de produtos de vidro.'),
                                                ('Marido de aluguel', 'Profissional responsável por fazer pequenos consertos e reparos em residências.'),
                                                ('Instalação de eletrônicos', 'Profissional responsável pela instalação, manutenção e reparo de dispositivos eletrônicos.');
--- changeset wagner:043
+-- changeset wagner:Workers
 CREATE TABLE worker(
-    worker_id INT PRIMARY KEY AUTO_INCREMENT,
+    worker_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     full_name VARCHAR(80) NOT NULL,
     birth_date DATE NOT NULL,
     phone VARCHAR(14) NOT NULL,
@@ -41,9 +41,10 @@ CREATE TABLE worker(
     cpf VARCHAR(14) NOT NULL UNIQUE,
     city VARCHAR(50) NOT NULL,
     photo_base64 LONGTEXT,
+    status VARCHAR(20) NOT NULL,
     FOREIGN KEY (category_id) REFERENCES category(id)
 );
--- changeset wagner:046
+-- changeset wagner:Reviews
 CREATE TABLE reviews (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
     worker_id BIGINT NOT NULL,
@@ -53,7 +54,3 @@ CREATE TABLE reviews (
     FOREIGN KEY (worker_id) REFERENCES worker(worker_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-
--- changeset wagner:047
-ALTER TABLE worker
-ADD COLUMN status VARCHAR(20) NOT NULL;

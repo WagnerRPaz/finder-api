@@ -3,9 +3,7 @@ package com.finder.finderapi.users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -14,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UsersController {
     private final UsersService service;
 
-    @GetMapping
-    public ResponseEntity<?>buscarTodos(){
-        return ResponseEntity.ok(service.buscarTodos());
+    @PostMapping("/changeToAdmin/{user_id}")
+    public ResponseEntity<?> changeToAdmin(@PathVariable Long user_id) {
+        service.changeToAdmin(user_id);
+        return ResponseEntity.ok().build();
     }
 }
