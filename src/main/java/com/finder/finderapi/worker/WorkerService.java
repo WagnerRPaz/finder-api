@@ -67,4 +67,13 @@ public class WorkerService {
             throw new WorkerNotFoundException("Trabalhador não encontrado: ", workerId);
         }
     }
+
+    public void deleteWorker(Long workerId) {
+        Optional<WorkerEntity> optionalWorker = repository.findById(workerId);
+        if (optionalWorker.isPresent()) {
+            repository.deleteById(workerId);
+        } else {
+            throw new WorkerNotFoundException("Trabalhador não encontrado: ", workerId);
+        }
+    }
 }

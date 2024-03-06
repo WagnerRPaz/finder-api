@@ -37,4 +37,10 @@ public class WorkerController {
         service.updateWorkerStatusToAccepted(workerId);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/deleteWorker/{workerId}")
+    public ResponseEntity<?> deleteWorker(@PathVariable Long workerId) {
+        service.deleteWorker(workerId);
+        return ResponseEntity.ok().build();
+    }
 }
