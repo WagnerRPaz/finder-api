@@ -6,6 +6,10 @@
 
 O projeto Finder foi desenvolvido como parte do meu Trabalho de Conclusão de Curso (TCC). Essa é a parte do backend da aplicação, que nada mais é do que uma API que conecta indivíduos ou empresas que precisam de habilidades ou serviços específicos com prestadores qualificados.
 
+Você pode conferir o frontend do projeto aqui ⬇️
+
+[![📱Visit_this_project](https://img.shields.io/badge/📱Visit_this_project-000?style=for-the-badge&logo=project)](https://github.com/WagnerRPaz/finder-api-fe)
+
 ## Funcionalidades
 
 - **Cadastro de Usuários**
